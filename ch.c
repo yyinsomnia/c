@@ -1,3 +1,4 @@
+#include <string.h>
 #define BUFSIZE 100
 
 char buf[BUFSIZE];
@@ -14,4 +15,13 @@ void ungetch(int c)
 		printf("ungetch: too many characters\n");
 	else 
 		buf[bufp++] = c;
+}
+
+void ungets(char s[])
+{
+	int len = strlen(s);
+	void ungetch(int);
+	while (len > 0) {
+		ungetch(s[--len]);
+	}
 }

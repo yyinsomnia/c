@@ -12,10 +12,13 @@ double pop(void);
 
 int main()
 {
-	int type;
-	double op1, op2;
+	int i, type, var = 0;
+	double op1, op2, v;
 	char s[MAXOP];
+	double variable[26];
 
+	for (i = 0; i < 26; i++)
+		variable[i] = 0.0;
 	while ((type = getop(s)) != EOF) {
 		swith (type) {
 		case NUMBER:
@@ -65,13 +68,25 @@ int main()
 			push(op1);
 			push(op2);
 			break;
+		case '=':
+			pop();
+			if (var >= 'A' && var <= 'Z')
+				variable[var - 'A'] = pop();
+			else 
+				printf("error: no variable name\n", );
+			break;
 		case '\n':
 			printf("\t%.8g\n", pop());
 			break;
 		default:
+			if (type >= 'A' && type <= 'Z')
+				push(variable[type - 'A']);
+			else if (type == 'v')
+				push(v); //is it worked?
 			printf("error: unknow command %s\n", s);
 			break;
 		}
+		var = type;
 	}
 	return 0;
 }
