@@ -23,8 +23,11 @@ void month_day(int year, int yearday, int *pmonth, int *pday)
 	int i, leap;
 
 	leap = year%4 == 0 && year%100 != 0 || year%400 == 0;
-	if (yearday < 1 || yearday > 366 || (!leap && yearday == 366))
-		return -1;
+	if (yearday < 1 || yearday > 366 || (!leap && yearday == 366)) {//my way is more efficiency,the book check the i and yearday after loop
+		//return -1;
+		*pmonth = -1;
+		*pday = -1;
+	}
 	for (i = 1; yearday > daytab[leap][i]; i++) {
 		yearday -= daytab[leap][i];
 	}
