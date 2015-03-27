@@ -1,4 +1,5 @@
-#defined MAXVAL 100
+#define MAXVAL 100
+#include <stdio.h>
 
 int sp = 0;
 double val[MAXVAL];

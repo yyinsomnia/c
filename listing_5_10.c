@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <math.h>
 
-#define MAXOP 100;
-#define NUMBER '0';
+#define MAXOP 100
+#define NUMBER '0'
 
 int getop(char []);
 void ungets(char []);
@@ -13,12 +13,12 @@ int main(int argc, char *argv[])
 {
 	char s[MAXOP];
 	double op2;
-
 	while (--argc > 0) {
 		ungets(" ");
 		ungets(*++argv);
 		switch (getop(s)) {
 			case NUMBER:
+				//why atoi is right but atof is zero?
 				push(atof(s));
 				break;
 			case '+':
@@ -28,10 +28,10 @@ int main(int argc, char *argv[])
 				op2 = pop();
 				push(pop() - op2);
 				break;
-			case '*'
+			case '*':
 				push(pop() * pop());
 				break;
-			case '/';
+			case '/':
 				op2 = pop();
 				if (op2 == 0.0)
 					printf("error: zero divisor\n");
@@ -45,6 +45,5 @@ int main(int argc, char *argv[])
 		}
 	}
 	printf("\t%.8g\n", pop());
->>>>>>> ded4df8b089238f056504e7f6ac5b29b62c55c00
 	return 0;
 }

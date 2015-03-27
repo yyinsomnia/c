@@ -1,4 +1,8 @@
 #include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+#define NUMBER '0'
+#define NAME '1'
 
 int getch(void);
 
@@ -13,7 +17,7 @@ int getop(char s[])
 	s[1] = '\0';
 	i = 0;
 	if (islower(c)) {
-		while (islower(s[++i] = c = getch())
+		while (islower(s[++i] = c = getch()))
 			;
 		s[i] = '\0';
 		if (c != EOF)
@@ -36,7 +40,7 @@ int getop(char s[])
 	}
 	if (isdigit(c))
 		while (isdigit(s[++i] = c = getch()))
-			;
+			;;
 	if (c == '.')
 		while (isdigit(s[++i] = c = getch()))
 			;
