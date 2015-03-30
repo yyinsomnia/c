@@ -16,7 +16,6 @@ int main(int argc, char *argv[])
 	char op;
 	op = getop(s);
 	if (argc != 4 || strcmp(argv[1], "-n") || op != NUMBER) {
-		printf("wrong way!");
 		n = DAFAULT_N;
 	} else {
 		n = atoi(s);
