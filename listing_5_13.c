@@ -1,5 +1,7 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#define FILE_MAX_LINE 10000
 #define DAFAULT_N 10
 #define NUMBER '0'
 
@@ -11,27 +13,35 @@ int main(int argc, char *argv[])
 	char s[9];
 	ungets(" ");
 	ungets(argv[2]);
-	if (argc != 4 || !strcmp(argv[1], "-n") || getop(s) != NUMBER) {
-		n = NUMBER;
+	char op;
+	op = getop(s);
+	if (argc != 4 || strcmp(argv[1], "-n") || op != NUMBER) {
+		printf("wrong way!");
+		n = DAFAULT_N;
 	} else {
 		n = atoi(s);
 	}
 
-	char *filename;
-	strcpy(filename, argv[3]);
-	if (fp = fopen(filenam, "r") == NULL) {
+	FILE *fp;
+	fp = fopen(argv[3], "r");
+	if (fp == NULL) {
 		printf("file is not exist!\n");
-		return -1;
+		return 0;
 	}
 
 	int start_line_number;
-	char *str_lines[];
-
+	char *str_lines[FILE_MAX_LINE];
+	char buffer[1024];
 	int line = 0;
 	while (!feof(fp)) {
-		fgets(str_lines[++line], 1024, fp);
+		fgets(buffer, 1024, fp);
+		str_lines[++line] = (char*)malloc(strlen(buffer)+1); //Segmentation fault (core dumped)?this is the problem key
+		strcpy(str_lines[line], buffer);
+
 	}
 	fclose(fp);
+
+
 	start_line_number = line - n + 1;
 	int now_line_number = start_line_number;
 	while (now_line_number++ <= line) {
