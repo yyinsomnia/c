@@ -91,8 +91,11 @@ int getword(char *word, int lim)
 
 	while (isspace(c = getch()))
 		;
-	if (c != EOF)
+	if (c == EOF) {
+		return c;
+	} else {
 		*w++ = c;
+	}
 	if (isalpha(c) || c == '_' || c == '#') {
 		for ( ; --lim > 0; w++) {
 			if (!isalnum(*w = getch())) {
