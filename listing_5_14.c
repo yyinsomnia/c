@@ -30,7 +30,6 @@ int main(int argc, char *argv[])
 		cmp = numcmp;
 	else
 		cmp = strcmp;
-	if ()
 	if ((nlines = readlines(lineptr, MAXLINES)) >= 0) {
 		qsort((void **) lineptr, 0, nlines - 1, reverse, (int (*)(void *, void *))cmp); //int strcmp(const char *str1, const char *str2), so need transform to void *
 		writelines(lineptr, nlines);
