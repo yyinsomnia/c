@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
 			root = addtree(root, word);
 		}
 	}
+	printf("\n------------------\n");
 	treeprint(root);
 	return 0;
 }
@@ -80,8 +81,9 @@ void treeprint(struct anode *p)
 		int wordcount = p->wordcount;
 		printf("%s: ", p->alias);
 		while (wordcount--) {
-			printf("%s ", p->wordlist[p->wordcount]);
+			printf("%s ", p->wordlist[wordcount]);
 		}
+		printf("\n");
 		treeprint(p->right);
 	}
 
@@ -96,13 +98,16 @@ int getword(char *word, int lim)
 
 	while (isspace(c = getch()))
 		;
-	if (c != EOF)
+	if (c == EOF) {
+		return c;
+	} else {
 		*w++ = c;
+	}
 	if (isalpha(c) || c == '_' || c == '#') {
 		for ( ; --lim > 0; w++) {
 			if (!isalnum(*w = getch())) {
 				ungetch(*w);
-				break;	
+				break;
 			}
 		}
 	} else if (c == '\'' || c == '"') {
@@ -123,7 +128,7 @@ int getword(char *word, int lim)
 				}
 			}
 		} else if (d == '/') {
-			while ((c = getch()) != 10) //TODO, try ascii
+			while ((c = getch()) != '\n') //TODO
 				;
 		} else {
 			ungetch(d);
