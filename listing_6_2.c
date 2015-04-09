@@ -9,15 +9,18 @@
 struct anode *addtree(struct anode *, char *);
 void treeprint(struct anode *);
 int getword(char *, int);
-char *alias(char *, const char *, int n);
+char *alias_hash(char *, const char *, int n);
+struct anode *talloc(void);
+char *strdupp(char *); //there is also strdupa() (in the GNU C library
 
 struct anode {
 	char *alias;
 	char *wordlist[MAXALIASWORDS];
+	int wordcount;
 	int count;
 	struct anode *left;
 	struct anode *right;
-}
+};
 
 int main(int argc, char *argv[])
 {
@@ -30,11 +33,11 @@ int main(int argc, char *argv[])
 			root = addtree(root, word);
 		}
 	}
-	treeprint(root, word);
+	treeprint(root);
 	return 0;
 }
 
-char *alias(char *alias, const char *word, int n)
+char *alias_hash(char *alias, const char *word, int n)
 {
 
 	while (*word != '\0' && n--) {
@@ -49,17 +52,18 @@ struct anode *addtree(struct anode *p, char *w)
 	int cond;
 	char alias[MAXALIAS];
 
-	alias(alias, w, MAXALIAS);
+	alias_hash(alias, w, MAXALIAS);
 
 
 	if (p == NULL) {
 		p = talloc();
-		p->alias = strdup(alias);
-		p->wordlist[] = strdup(w);
+		p->alias = strdupp(alias);
+		p->wordlist[0] = strdupp(w);
+		p->wordcount = 1;
 		p->count = 1;
 		p->left = p->right = NULL;
 	} else if ((cond = strcmp(alias, p->alias)) == 0) {
-		p->wordlist[] = strdup(w);
+		p->wordlist[p->wordcount++] = strdupp(w);
 		p->count++;
 	} else if (cond < 0) {
 		p->left = addtree(p->left, w);
@@ -67,6 +71,20 @@ struct anode *addtree(struct anode *p, char *w)
 		p->right = addtree(p->right, w);
 	}
 	return p;
+}
+
+void treeprint(struct anode *p)
+{
+	if (p != NULL) {
+		treeprint(p->left);
+		int wordcount = p->wordcount;
+		printf("%s: ", p->alias);
+		while (wordcount--) {
+			printf("%s ", p->wordlist[p->wordcount]);
+		}
+		treeprint(p->right);
+	}
+
 }
 
 int getword(char *word, int lim)
@@ -84,7 +102,7 @@ int getword(char *word, int lim)
 		for ( ; --lim > 0; w++) {
 			if (!isalnum(*w = getch())) {
 				ungetch(*w);
-				break;
+				break;	
 			}
 		}
 	} else if (c == '\'' || c == '"') {
@@ -105,7 +123,7 @@ int getword(char *word, int lim)
 				}
 			}
 		} else if (d == '/') {
-			while ((c = getch()) != '\n') //TODO
+			while ((c = getch()) != 10) //TODO, try ascii
 				;
 		} else {
 			ungetch(d);
@@ -113,4 +131,19 @@ int getword(char *word, int lim)
 	}
 	*w = '\0';
 	return word[0];
+}
+
+struct anode *talloc(void)
+{
+	return (struct anode *) malloc(sizeof(struct anode));
+}
+
+char *strdupp(char *s)
+{
+	char *p;
+
+	p = (char *) malloc(strlen(s) + 1);
+	if (p != NULL)
+		strcpy(p, s);
+	return p;
 }
