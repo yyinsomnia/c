@@ -13,6 +13,9 @@ char *alias_hash(char *, const char *, int n);
 struct anode *talloc(void);
 char *strdupp(char *); //there is also strdupa() (in the GNU C library
 
+/**
+ * the same work will be showed n time , let it go..
+ */
 struct anode {
 	char *alias;
 	char *wordlist[MAXALIASWORDS];
@@ -89,6 +92,9 @@ void treeprint(struct anode *p)
 
 }
 
+/**
+ * it's ok, the work is start with a-zA-Z_ ,the number is filtered
+ */
 int getword(char *word, int lim)
 {
 	int c, d, former, later;
