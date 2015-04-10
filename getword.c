@@ -1,3 +1,5 @@
+#include <stdio.h>
+
 int getword(char *word, int lim)
 {
 	int c, d, former, later;

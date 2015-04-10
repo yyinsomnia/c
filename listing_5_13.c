@@ -19,7 +19,8 @@ int main(int argc, char *argv[])
 
 	char *filename;
 	strcpy(filename, argv[3]);
-	if (fp = fopen(filenam, "r") == NULL) {
+	FILE * fp;
+	if (fp = fopen(filename, "r") == NULL) {
 		printf("file is not exist!\n");
 		return -1;
 	}
