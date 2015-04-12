@@ -2,8 +2,11 @@
 #include <string.h>
 #include <ctype.h>
 
+#define MAXWORD 100
+
 struct tnode *addtree(struct tnode *, char *);
-void treeprint_sort(struct tnode *);
+void sorttree(struct tnode *, struct tnode *);
+void treeprint(struct tnode *);
 int getword(char *, int);
 
 struct tnode *talloc(void);
@@ -29,7 +32,7 @@ int main()
 		if (isalpha(word[0]))
 			root = addtree(root, word);
 	}
-	treeprint_sort(root_sort, root);
+	sorttree(root_sort, root);
 	return 0;
 }
 
@@ -70,8 +73,10 @@ struct tnode *addtree_sort(struct tnode *p, struct tnode *s)
 }
 
 
-struct tnode *sorttree(struct tnode *p, struct tnode *s)
+void sorttree(struct tnode *p, struct tnode *s)
 {
+	struct tnode *addtree_sort(struct tnode *, struct tnode *);
+
 	if (p != NULL) {
 		sorttree(p, s->left);
 		addtree_sort(p, s);
