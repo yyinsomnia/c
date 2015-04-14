@@ -1,6 +1,6 @@
 #include <string.h>
 #include <stdio.h>
-#define BUFSIZE 100
+#define BUFSIZE 4096
 
 char buf[BUFSIZE];
 int bufp = 0;

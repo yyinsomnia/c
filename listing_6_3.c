@@ -26,16 +26,28 @@ int main(int argc, char *argv[])
 		return -1;
 	}
 	char *filename;
-	strcpy(filename, argv[2]);
+	filename = argv[1];
 	FILE * fp;
 	if ((fp = fopen(filename, "r")) == NULL) {
 		printf("file is not exist!\n");
 		return -1;
 	}
+	char buffer[4096]; //how dirty it is..
+	int i = 0;
+	while (!feof(fp)) {
+		buffer[i++] = fgetc(fp);
+	}
+	buffer[i] = EOF;
+	fclose(fp);
+	ungets(buffer);
+
 	int linenow = 1;
 	struct nlist *node;
 	struct nlist *node_parent;
 	while (getword(word, MAXWORD) != EOF) {
+		if (word[1] = '\0' && !isalpha(word[0]) {
+			continue;
+		}
 		if ((word[0] == '\n')) {
 			linenow++;
 		}
@@ -66,7 +78,6 @@ int main(int argc, char *argv[])
 			}
 		}
 	}
-	int i;
 	for (i = 0; i < HASHSIZE; i++) {
 		node = hashtab[i];
 		while (node != NULL) {
@@ -75,6 +86,8 @@ int main(int argc, char *argv[])
 			while (count--) {
 				printf(" %d", node->lines[count]);
 			}
+			printf("\n");
+			node = node->next;
 		}
 	}
 	return 0;

@@ -45,6 +45,8 @@ int getword(char *word, int lim)
 		} else {
 			ungetch(d);
 		}
+	} else {
+		;
 	}
 	*w = '\0';
 	return word[0];
