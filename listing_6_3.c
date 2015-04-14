@@ -37,19 +37,25 @@ int main(int argc, char *argv[])
 	while (!feof(fp)) {
 		buffer[i++] = fgetc(fp);
 	}
-	buffer[i] = EOF;
+	/** 
+	 * that is the problem in func void ungets(char s[]) : int len = strlen(s);
+	 * pay attention !!!!! the EOF will store in the buffer[i - 1], replace it with '\0'
+	 */
+	buffer[i - 1] = '\0';
 	fclose(fp);
+	ungetch(EOF); //it is necessary!
 	ungets(buffer);
 
 	int linenow = 1;
 	struct nlist *node;
 	struct nlist *node_parent;
 	while (getword(word, MAXWORD) != EOF) {
-		if (word[1] = '\0' && !isalpha(word[0]) {
-			continue;
-		}
 		if ((word[0] == '\n')) {
 			linenow++;
+		}
+
+		if (word[1] == '\0' && !isalpha(word[0])) { //caocaocao == is not =
+			continue;
 		}
 
 		int hash_key = simple_hash(word, HASHSIZE);

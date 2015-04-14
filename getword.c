@@ -8,7 +8,7 @@ int getword(char *word, int lim)
 	void ungetch(int);
 	char *w = word;
 
-	while (isspace(c = getch()))
+	while (isspace(c = getch()) && c != '\n') //for the line number statistics
 		;
 	if (c == EOF) {
 		return c;
