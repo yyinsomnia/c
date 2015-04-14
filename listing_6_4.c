@@ -1,3 +1,7 @@
+/**
+ * gcc -g listing_6_4.c hash.c getword.c getch.c
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -6,7 +10,7 @@
 #define MAXWORD 100
 
 struct tnode *addtree(struct tnode *, char *);
-void sorttree(struct tnode *, struct tnode *);
+struct tnode *sorttree(struct tnode *, struct tnode *);
 void treeprint(struct tnode *);
 int getword(char *, int);
 
@@ -28,12 +32,13 @@ int main()
 	struct tnode *root_sort;
 	char word[MAXWORD];
 
-	root = NULL;
+	root = root_sort = NULL;
 	while (getword(word, MAXWORD) != EOF) {
 		if (isalpha(word[0]))
 			root = addtree(root, word);
 	}
-	sorttree(root_sort, root);
+	root_sort = sorttree(root_sort, root);
+	treeprint(root_sort);
 	return 0;
 }
 
@@ -74,15 +79,16 @@ struct tnode *addtree_sort(struct tnode *p, struct tnode *s)
 }
 
 
-void sorttree(struct tnode *p, struct tnode *s)
+struct tnode *sorttree(struct tnode *p, struct tnode *s)
 {
 	struct tnode *addtree_sort(struct tnode *, struct tnode *);
 
-	if (p != NULL) {
+	if (s != NULL) {
 		sorttree(p, s->left);
-		addtree_sort(p, s);
+		p = addtree_sort(p, s);
 		sorttree(p, s->right);
 	}
+	return p;
 }
 
 void treeprint(struct tnode *p)
