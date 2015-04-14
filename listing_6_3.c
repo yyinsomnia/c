@@ -1,3 +1,7 @@
+/**
+ * gcc -g listing_6_3.c hash.c getword.c getch.c
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
