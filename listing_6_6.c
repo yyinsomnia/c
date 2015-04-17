@@ -1,3 +1,6 @@
+/**
+ * gcc -g listing_6_6.c hash.c getword.c getch.c
+ */
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -21,7 +24,7 @@ struct nlist *lookup(char *s)
 	struct nlist *np;
 
 	//question: for == do while or while, make a test
-	for (np = hashtab[simple_hash(s, HASHSIZE)]; np->next != NULL; np = np->next) {
+	for (np = hashtab[simple_hash(s, HASHSIZE)]; np != NULL; np = np->next) {
 		if (strcmp(np->name, s) == 0) {
 			return np;
 		}
@@ -79,6 +82,7 @@ int main()
 	char name[MAXWORD];
 	char defn[MAXWORD];
 	int name_ready, defn_ready;
+	int i;
 
 	while ((c = getch()) != EOF) {
 		if (c == '#') {
@@ -88,16 +92,28 @@ int main()
 				printf("%s", word);
 				name_ready = 0;
 				defn_ready = 0;
-				while ((c = getch())) {
+				while ((c = getch()) != EOF) {
 					if (isspace(c)) {
 						printf("%c", c);
 					} else {
 						ungetch(c);
 						if (!name_ready) {
 							getword(name, MAXWORD);
+							name_ready = 1;
 							printf("%s", name);
-						} else if (!defn_ready) {
-							getword(defn, MAXWORD);
+						} else if (!defn_ready) { //it maybe a number string
+							i = 0;
+							while (c = getch()) {
+								if (isspace(c)) {
+									break;
+								} else {
+									defn[i++] = c;
+								}
+
+							}
+							defn[i] = '\0';
+							ungetch(c);
+							defn_ready = 1;
 							printf("%s", defn);
 							install(name, defn);
 							break;
@@ -109,7 +125,7 @@ int main()
 			}
 		} else if(isalpha(c) || c == '_') {
 			ungetch(c);
-			getword(word);
+			getword(word, MAXWORD); //loss the MAXWORD why not notify me?compiler!!
 			if ((np = lookup(word)) != NULL) { 
 				printf("%s", np->defn);
 			} else {
