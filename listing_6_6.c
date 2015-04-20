@@ -70,6 +70,7 @@ int undef(char *name)
 		free((void *) np->name);
 		free((void *) np->defn);
 		free((void *) np); //is the free recursion? or we need to free np->name,np->defn first?how can it distinguish between *next and *name
+		//haha my guess is correct, we should free np->name and np->defn and then free np.
 	}
 	return 1;
 }
